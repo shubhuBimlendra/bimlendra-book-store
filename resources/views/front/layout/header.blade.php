@@ -71,11 +71,10 @@
             <div class="col-lg-3 col-6 text-right">
                             @if(Route::has('login'))
                                 @auth
-                                    @if(Auth::user()->role===1)
+                                    @if(Auth::user()->utype===1)
                                     <div class="nav-item dropdown">
-                                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">My Account ({{Auth::user()->name}})</a>
+                                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{Auth::user()->name}}</a>
                                         <div class="dropdown-menu rounded-0 m-0">
-                                            <a href="{{route('admin.dashboard')}}" class="dropdown-item">Dashboard</a>
                                             <a class="dropdown-item" href="{{route('logout')}}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-power -off"></i>Logout</a>
                                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                                 @csrf
@@ -84,9 +83,8 @@
                                     </div>
                                     @else
                                     <div class="nav-item dropdown">
-                                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">My Account ({{Auth::user()->name}})</a>
+                                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{Auth::user()->name}}</a>
                                         <div class="dropdown-menu rounded-0 m-0">
-                                            <a href="{{route('user.profile')}}" class="dropdown-item">User Profile</a>
                                             <a class="dropdown-item" href="{{route('logout')}}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="fa fa-power -off"></i>Logout</a>
                                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                                 @csrf

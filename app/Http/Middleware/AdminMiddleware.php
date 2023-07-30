@@ -6,6 +6,8 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+use Auth;
+
 class AdminMiddleware
 {
     /**
@@ -15,6 +17,19 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        return $next($request);
+        if(Auth::check()){
+            if(Auth::user()->utype == 1) // ADM for admin and 0 for user
+            {
+                return $next($request);
+            }
+            else
+            {
+                return redirect('/')->with('status','Access Denied! As you are not admin');
+            }
+        }
+        else
+        {
+            return redirect('/login')->with('status','Please Login!');
+        }
     }
 }

@@ -3,6 +3,10 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Front\HomeController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\AuthorController;
+use App\Http\Controllers\Admin\BookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,11 +20,17 @@ use App\Http\Controllers\Front\HomeController;
 */
 
 
+
 Route::get('/', [HomeController::class, 'index']);
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::prefix('admin')->middleware(['auth', 'verified', 'isAdmin'])->group(function(){
+    Route::get('/dashboard', [DashboardController::class,'index'])->name('admin.dashboard');
+    Route::resource('/categories', CategoryController::class);
+    Route::resource('/authors', AuthorController::class);
+    Route::resource('/books', BookController::class);
+
+});
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
