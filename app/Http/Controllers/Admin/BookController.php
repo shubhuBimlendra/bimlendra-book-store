@@ -52,24 +52,24 @@ class BookController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('book_images', 'public');
-        }
         $book = new Book;
         $book->title = $request->title;
         $book->description = $request->description;
         $book->category_id = $request->category_id;
-        $book->added_by = $user;
-        $book->updated_by = $user;
+        $book->added_by = Auth::user()->name;
+        $book->updated_by = 'NAN';
         $book->price = $request->price;
         $book->discount = $request->discount;
+        $book->qty = $request->quantity;
         $book->edition = $request->edition;
         $book->language = $request->language;
         $book->publication_date = $request->publicationDate;
         $book->isbn = $request->isbn;
-        if (isset($imagePath)) {
-            $book->image = $imagePath;
-        }
+
+        $imageName = Carbon::now()->timestamp. '.' . $request->image->extension();
+        $request->image->move(public_path('images'), $imageName);
+        $book->image = $imageName;
+
         $book->save();
 
         $book->authors()->attach($request['author_id']);
@@ -92,7 +92,10 @@ class BookController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $books = Book::findOrFail($id);
+        $categories = Category::all();
+        $authors = Author::all();
+        return view('Admin.book.edit', compact('books','categories','authors'));
     }
 
     /**
@@ -100,7 +103,44 @@ class BookController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'category_id' => 'required|exists:categories,id',
+            'author_id' => 'required|array',
+            'author_id.*' => 'exists:authors,id',
+            'price' => 'required|numeric',
+            'discount' => 'nullable|numeric',
+            'edition' => 'nullable|string|max:100',
+            'language' => 'nullable|string|max:100',
+            'publication_date' => 'nullable|date',
+            'isbn' => 'nullable|string|max:20',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $book = Book::findOrFail($id);
+        $book->title = $request->title;
+        $book->description = $request->description;
+        $book->category_id = $request->category_id;
+        $book->updated_by = Auth::user()->name;
+        $book->price = $request->price;
+        $book->discount = $request->discount;
+        $book->qty = $request->quantity;
+        $book->edition = $request->edition;
+        $book->language = $request->language;
+        $book->publication_date = $request->publicationDate;
+        $book->isbn = $request->isbn;
+
+        $imageName = Carbon::now()->timestamp. '.' . $request->image->extension();
+        $request->image->move(public_path('images'), $imageName);
+        $book->image = $imageName;
+
+        $book->save();
+
+        $book->authors()->attach($request['author_id']);
+        return redirect()->route('books.index')
+        ->with('success','Book has been Updated successfully.');
+
     }
 
     /**
@@ -108,6 +148,9 @@ class BookController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $book = Book::findOrFail($id);
+        $book->delete();
+        return redirect()->route('books.index')
+        ->with('success','Book has been deleted successfully.');
     }
 }

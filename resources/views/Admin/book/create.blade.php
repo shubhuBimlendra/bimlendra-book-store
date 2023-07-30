@@ -106,7 +106,7 @@
 
 <div class="form-group">
 <strong>Description:</strong>
-<input type="text" name="description" class="form-control" placeholder="Book description">
+<textarea name="description" class="form-control" placeholder="Book description" id="" cols="5" rows="5"></textarea>
 @error('description')
 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
 @enderror
@@ -154,6 +154,14 @@
 <strong>Discount:</strong>
 <input type="text" name="discount" class="form-control" placeholder="discount">
 @error('discount')
+<div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+@enderror
+</div>
+
+<div class="form-group">
+<strong>Quantity:</strong>
+<input type="text" name="quantity" class="form-control" placeholder="quantity">
+@error('quantity')
 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
 @enderror
 </div>

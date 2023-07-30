@@ -30,13 +30,6 @@
 <div class="container mt-2">
 <div class="row">
 <div class="col-lg-12 margin-tb">
-<form type="get" action="{{url('/admin/categorysearch')}}">
-    <div class="form-group">
-        <h4>Category</h4>
-        <input type="search" name="query" class="form-control" placeholder="Search Category...">
-    </div>
-    <button class="btn btn-primary">Search</button>
-</form>
 <div class="pull-right mb-2">
 <a class="btn btn-success" href="{{route('categories.create')}}"> Create Category</a>
 </div>

@@ -11,7 +11,7 @@
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li class="active">
-                        <a href="/"> <i class="menu-icon fa fa-dashboard"></i>Home</a>
+                        <a href="{{route('admin.dashboard')}}"> <i class="menu-icon fa fa-dashboard"></i>Home</a>
                     </li>
                     <li class="active">
                         <a href="{{route('categories.index')}}"> <i class="menu-icon fa fa-table"></i>Manage Category </a>

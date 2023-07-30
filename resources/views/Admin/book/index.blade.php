@@ -45,16 +45,17 @@
 <th>Title</th>
 <th>Description</th>
 <th>Category ID</th>
-<th>Author ID</th>
 <th>Added By</th>
 <th>Updated By</th>
 <th>Price</th>
 <th>Discount</th>
+<th>Quantity</th>
 <th>Edition</th>
 <th>Language</th>
 <th>Publication Date</th>
 <th>ISBN</th>
 <th>Image</th>
+<th>Action</th>
 </tr>
 @foreach ($books as $book)
 <tr>
@@ -62,16 +63,16 @@
 <td>{{ $book->title }}</td>
 <td>{{ $book->description }}</td>
 <td>{{ $book->category->name }}</td>
-<td>{{ $book->author_id }}</td>
 <td>{{ $book->added_by }}</td>
 <td>{{ $book->updated_by }}</td>
 <td>{{ $book->price }}</td>
 <td>{{ $book->discount }}</td>
+<td>{{ $book->qty }}</td>
 <td>{{ $book->edition }}</td>
 <td>{{ $book->language }}</td>
 <td>{{ $book->publication_date }}</td>
 <td>{{ $book->isbn }}</td>
-<td>{{ $book->image }}</td>
+<td><img src="{{asset('images')}}/{{$book->image}}" /></td>
 
 <td>
 <form action="{{ route('books.destroy',$book->id) }}" method="Post">
