@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\AuthorController;
 use App\Http\Controllers\Admin\BookController;
+use App\Http\Controllers\Front\ProductDetailsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,10 @@ use App\Http\Controllers\Admin\BookController;
 
 
 Route::get('/', [HomeController::class, 'index']);
+
+Route::get('/filter', [HomeController::class,'filterBooks'])->name('filter.books');
+
+Route::get('/product-details/{id}',[ProductDetailsController::class,'index'])->name('book.details');
 
 Route::prefix('admin')->middleware(['auth', 'verified', 'isAdmin'])->group(function(){
     Route::get('/dashboard', [DashboardController::class,'index'])->name('admin.dashboard');
